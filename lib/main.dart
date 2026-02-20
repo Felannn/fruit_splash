@@ -1,6 +1,11 @@
+import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:fruit_splash/game/fruit_catcher_game.dart';
+import 'package:fruit_splash/game/managers/audio_manager.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await AudioManager().initialize();
   runApp(MyApp());
 }
 
@@ -10,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Fruit Splash',
+      title: 'Flutter Splash',
       home: GameScreen(),
       debugShowCheckedModeBanner: false,
     );
@@ -25,19 +30,75 @@ class GameScreen extends StatefulWidget {
 }
 
 class _GameScreenState extends State<GameScreen> {
+  final ValueNotifier<int> counter = ValueNotifier(1);
+  late FruitCatcherGame game;
+
+  @override
+  void initState() {
+    super.initState();
+    game = FruitCatcherGame();
+  }
+
+  @override
+  void dispose() {
+    game.onRemove();
+    super.dispose();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Dashboard"),
-        actions: const [],
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-            children: [],
-        ),
-      ),
+      body: Stack(
+            children: [
+              GameWidget(game: game),
+              Positioned(
+                top: 50,
+                left: 20,
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+          
+                  child: ValueListenableBuilder(
+                    valueListenable: game.scoreNotifier,
+                    builder: (context, score, child) {
+                      return Text(
+                        'Score: $score',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 50,
+                right: 20,
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.music_note, color: Colors.white),
+                      onPressed: () {
+                        AudioManager().toggleMusic();
+                      },
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.volume_up, color: Colors.white),
+                      onPressed: () {
+                        AudioManager().toggleSfx();
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
     );
   }
 }
