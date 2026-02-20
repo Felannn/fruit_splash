@@ -1,16 +1,17 @@
-# fruit_splash
+# hasil
 
-A new Flutter project.
+![fruit_icon](https://github.com/user-attachments/assets/a9a532ba-7f0a-4465-a43e-bc95bc426d62)
 
-## Getting Started
+![gameplay](https://github.com/user-attachments/assets/712e8fde-9d9e-49a7-85c6-42d5ba202068)
 
-This project is a starting point for a Flutter application.
+## Cara Mendapatkan Apk
 
-A few resources to get you started if this is your first Flutter project:
+### Clone the repository
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+```bash
+git clone https://github.com/your-username/fruit-catcher.git
+cd fruit-catcher
+flutter pub get
+flutter build apk --release
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
